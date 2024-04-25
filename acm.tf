@@ -1,3 +1,7 @@
+provider "aws" {
+    region = "us-east-1" 
+}
+
 resource "aws_acm_certificate" "ssl_cert" {
   domain_name       = var.domain_name
   validation_method = "DNS"
