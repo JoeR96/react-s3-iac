@@ -80,8 +80,3 @@ resource "aws_iam_user_policy_attachment" "s3_attachment" {
   user       = "operation-stacked"
   policy_arn = aws_iam_policy.s3_policy.arn
 }
-
-resource "aws_iam_user_policy_attachment" "s3_attachment" {
-  user       = "operation-stacked"
-  policy_arn = aws_iam_policy.s3_policy.arn
-}
