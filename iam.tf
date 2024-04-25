@@ -65,6 +65,35 @@ resource "aws_iam_policy" "s3_policy" {
 EOF
 }
 
+
+resource "aws_iam_policy" "bootstrap_permissions" {
+  name        = "bootstrap-permissions"
+  description = "Permissions necessary to manage policies and resources for Terraform"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:GetPolicy",
+          "iam:CreatePolicy",
+          "acm:RequestCertificate",
+          "route53:CreateHostedZone",
+          "s3:*"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "bootstrap_attachment" {
+  user       = "operation-stacked"
+  policy_arn = aws_iam_policy.bootstrap_permissions.arn
+}
+
+
 //these policies are coded to my operation-stacked user atm, in the next phase we will move roles to be purely IAC
 resource "aws_iam_user_policy_attachment" "acm_attachment" {
   user       = "operation-stacked"
