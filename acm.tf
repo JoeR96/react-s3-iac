@@ -1,5 +1,6 @@
 provider "aws" {
-    alias = "us-east-1"
+    alias  = "us-east-1"
+    region = "us-east-1"
 }
 
 resource "aws_acm_certificate" "ssl_cert" {
