@@ -13,23 +13,6 @@ resource "aws_acm_certificate" "ssl_cert" {
   }
 }
 
-resource "aws_route53_record" "cert_validation_record" {
-  provider = aws.us-east-1
-  for_each = {
-    for dvo in aws_acm_certificate.ssl_cert.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      type   = dvo.resource_record_type
-      record = dvo.resource_record_value
-    }
-  }
-
-  zone_id = aws_route53_zone.primary.zone_id
-  name    = each.value.name
-  type    = each.value.type
-  records = [each.value.record]
-  ttl     = 60
-}
-
 resource "aws_acm_certificate_validation" "cert_validation" {
   provider = aws.us-east-1
   certificate_arn         = aws_acm_certificate.ssl_cert.arn

@@ -13,3 +13,7 @@ variable "bucket_name" {
   type        = string
 }
 
+variable "nameservers" {
+  type = list(string)
+  description = "List of nameservers for the domain."
+}
